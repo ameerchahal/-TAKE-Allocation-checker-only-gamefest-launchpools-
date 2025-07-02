@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameFest Tier Allocation Checker</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0e0e16;
+      color: #fff;
+      padding: 20px;
+      margin: 0;
+    }
+    h1, h2 {
+      color: #f0c52b;
+      text-align: center;
+    }
+    .category {
+      margin: 30px 0;
+      border: 2px solid #f0c52b;
+      padding: 15px;
+      border-radius: 15px;
+    }
+    .pool {
+      margin-bottom: 15px;
+    }
+    label {
+      font-weight: bold;
+    }
+    select {
+      margin-left: 10px;
+      padding: 6px;
+      border-radius: 8px;
+      border: none;
+      background: #1e1e2f;
+      color: #fff;
+    }
+    .result {
+      margin-top: 10px;
+      color: #00ffcc;
+    }
+    .total {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-top: 30px;
+      color: #76ff03;
+    }
+    @media (max-width: 600px) {
+      select {
+        width: 100%;
+        margin-top: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>GameFest Tier Allocation Checker</h1>
+
+  <div class="category">
+    <h2>Somnis</h2>
+    <div class="pool" data-pool="Clear Quests, Collect AP">
+      <label>Clear Quests, Collect AP:</label>
+      <select></select>
+      <div class="result"></div>
+    </div>
+    <div class="pool" data-pool="Strengthen your cards">
+      <label>Strengthen your cards:</label>
+      <select></select>
+      <div class="result"></div>
+    </div>
+    <div class="pool" data-pool="Collect cards and equipment">
+      <label>Collect cards and equipment:</label>
+      <select></select>
+      <div class="result"></div>
+    </div>
+    <div class="pool" data-pool="Level up and win">
+      <label>Level up and win:</label>
+      <select></select>
+      <div class="result"></div>
+    </div>
+    <div class="pool" data-pool="Climb the Leaderboard">
+      <label>Climb the Leaderboard:</label>
+      <select></select>
+      <div class="result"></div>
+    </div>
+  </div>
+
+  <div class="category">
+    <h2>GG:S</h2>
+    <div class="pool" data-pool="Convert collect AP">
+      <label>Convert collect AP:</label>
+      <select></select>
+      <div class="result"></div>
+    </div>
+    <div class="pool" data-pool="Dominate with the highest kills">
+      <label>Dominate with the highest kills:</label>
+      <select></select>
+      <div class="result"></div>
+    </div>
+    <div class="pool" data-pool="Survive the zombie hordle">
+      <label>Survive the zombie hordle:</label>
+      <select></select>
+      <div class="result"></div>
+    </div>
+  </div>
+
+  <div class="total">Total Allocation: <span id="total">0</span> $TAKE</div>
+
+  <script>
+    const allocations = {
+      'Clear Quests, Collect AP': {
+        Champion: 250000,
+        Grandmaster: 150000,
+        Master: 100000,
+        Diamond: 57142.86,
+        Platinum: 18888.89,
+        Gold: 3000,
+        Silver: 522.22,
+        Unranked: 0
+      },
+      'Strengthen your cards': {
+        Champion: 56000,
+        Grandmaster: 30000,
+        Master: 12000,
+        Diamond: 5000,
+        Platinum: 1500,
+        Gold: 750,
+        Silver: 100,
+        Unranked: 0
+      },
+      'Collect cards and equipment': {
+        Champion: 125000,
+        Grandmaster: 75000,
+        Master: 50000,
+        Diamond: 28142.43,
+        Platinum: 9444.44,
+        Gold: 1500,
+        Silver: 261.11,
+        Unranked: 0
+      },
+      'Level up and win': {
+        Champion: 75000,
+        Grandmaster: 45000,
+        Master: 30000,
+        Diamond: 17142.86,
+        Platinum: 5666.67,
+        Gold: 900,
+        Silver: 157.67,
+        Unranked: 0
+      },
+      'Climb the Leaderboard': {
+        Champion: 60000,
+        Grandmaster: 54000,
+        Master: 48000,
+        Diamond: 4600,
+        Platinum: 666,
+        Gold: 300,
+        Silver: 148,
+        Unranked: 0
+      },
+      'Convert collect AP': {
+        Champion: 450000,
+        Grandmaster: 300000,
+        Master: 225000,
+        Diamond: 23969.07,
+        Platinum: 2833.33,
+        Gold: 450,
+        Silver: 56.67,
+        Unranked: 0
+      },
+      'Dominate with the highest kills': {
+        Champion: 300000,
+        Grandmaster: 200000,
+        Master: 150000,
+        Diamond: 15979.38,
+        Platinum: 1888.89,
+        Gold: 300,
+        Silver: 37.78,
+        Unranked: 0
+      },
+      'Survive the zombie hordle': {
+        Champion: 150000,
+        Grandmaster: 100000,
+        Master: 75000,
+        Diamond: 7989.69,
+        Platinum: 944.44,
+        Gold: 150,
+        Silver: 18.89,
+        Unranked: 0
+      }
+    };
+
+    const tiers = ['Unranked', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Master', 'Grandmaster', 'Champion'];
+
+    document.querySelectorAll('.pool').forEach(poolDiv => {
+      const poolName = poolDiv.dataset.pool;
+      const select = poolDiv.querySelector('select');
+      tiers.forEach(tier => {
+        const opt = document.createElement('option');
+        opt.value = tier;
+        opt.textContent = tier;
+        select.appendChild(opt);
+      });
+
+      select.addEventListener('change', () => {
+        const tier = select.value;
+        const amount = allocations[poolName][tier] || 0;
+        poolDiv.querySelector('.result').textContent = `${amount.toLocaleString()} $TAKE`;
+        calculateTotal();
+      });
+    });
+
+    function calculateTotal() {
+      let total = 0;
+      document.querySelectorAll('.pool').forEach(poolDiv => {
+        const poolName = poolDiv.dataset.pool;
+        const tier = poolDiv.querySelector('select').value;
+        total += allocations[poolName][tier] || 0;
+      });
+      document.getElementById('total').textContent = total.toLocaleString();
+    }
+  </script>
+</body>
+</html>

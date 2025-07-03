@@ -272,7 +272,7 @@
       select.addEventListener('change', () => {
         const tier = select.value;
         const amount = allocations[poolName][tier] || 0;
-        poolDiv.querySelector('.result').textContent = ${amount.toLocaleString()} $TAKE;
+        poolDiv.querySelector('.result').textContent = `${amount.toLocaleString()} $TAKE`;
         calculateTotal();
       });
     });
@@ -302,4 +302,4 @@
     }
   </script>
 </body>
-</html>  
+</html>

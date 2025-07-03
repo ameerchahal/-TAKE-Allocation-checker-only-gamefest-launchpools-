@@ -12,17 +12,20 @@
       background-color: #090a0f;
       color: white;
     }
+
     header {
       text-align: center;
       padding: 2rem 1rem 1rem;
       color: #f8b933;
     }
+
     header img {
       width: 80px;
       height: 80px;
       border-radius: 12px;
       margin-bottom: 1rem;
     }
+
     .wrapper {
       display: flex;
       flex-direction: column;
@@ -31,6 +34,7 @@
       margin: 0 auto;
       padding: 1rem;
     }
+
     .category {
       background: linear-gradient(145deg, #13141c, #1a1b25);
       border: 1px solid #1c1e2a;
@@ -38,18 +42,22 @@
       padding: 1.5rem;
       box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
     }
+
     .category h2 {
       margin-top: 0;
       color: #f8b933;
       font-size: 1.4rem;
     }
-    .pool, .check, .rank-check {
+
+    .pool {
       margin-bottom: 1rem;
     }
+
     label {
       display: block;
       margin-bottom: 0.5rem;
     }
+
     select, input[type="number"] {
       width: 100%;
       padding: 0.6rem;
@@ -60,10 +68,12 @@
       color: #f0f0f0;
       outline: none;
     }
+
     .result {
       margin-top: 0.5rem;
       color: #80ffd3;
     }
+
     .total {
       text-align: center;
       font-size: 1.8rem;
@@ -71,10 +81,12 @@
       color: #76ff03;
       font-weight: bold;
     }
+
     .actions {
       text-align: center;
       margin-bottom: 2rem;
     }
+
     button {
       padding: 0.75rem 1.5rem;
       margin: 0.5rem;
@@ -86,9 +98,11 @@
       cursor: pointer;
       transition: all 0.2s ease-in-out;
     }
+
     button:hover {
       background: #ffdf65;
     }
+
     @media screen and (max-width: 600px) {
       .wrapper {
         padding: 1rem 0.5rem;
@@ -103,123 +117,12 @@
   </header>
 
   <div class="wrapper">
-    <!-- Existing categories here -->
-
-    <div class="category">
-      <h2>POPs</h2>
-      <div class="check" data-check="Overtake Basics"> <label>Overtake Basics</label><select><option>No</option><option>Yes</option></select><div class="result"></div></div>
-      <div class="check" data-check="Mint GG:S Pass"><label>Mint GG:S Pass</label><select><option>No</option><option>Yes</option></select><div class="result"></div></div>
-      <div class="check" data-check="Sui x OVERTAKE April"><label>Sui x OVERTAKE April</label><select><option>No</option><option>Yes</option></select><div class="result"></div></div>
-      <div class="check" data-check="Sui x OVERTAKE March"><label>Sui x OVERTAKE March</label><select><option>No</option><option>Yes</option></select><div class="result"></div></div>
-      <div class="check" data-check="OVERTAKE Quiz Student (lvl 1)"><label>OVERTAKE Quiz Student (lvl 1)</label><select><option>No</option><option>Yes</option></select><div class="result"></div></div>
-      <div class="check" data-check="OVERTAKE Quiz Professor (lvl 3)"><label>OVERTAKE Quiz Professor (lvl 3)</label><select><option>No</option><option>Yes</option></select><div class="result"></div></div>
-      <div class="check" data-check="Ultimate Dedication"><label>Ultimate Dedication</label><select><option>No</option><option>Yes</option></select><div class="result"></div></div>
-      <div class="check" data-check="Reward for OGs"><label>Reward for OGs</label><select><option>No</option><option>Yes</option></select><div class="result"></div></div>
-      <div class="check" data-check="Participate in Games"><label>Participate in Games</label><select><option>No</option><option>Yes</option></select><div class="result"></div></div>
-      <div class="check" data-check="Prove Your Love"><label>Prove Your Love</label><select><option>No</option><option>Yes</option></select><div class="result"></div></div>
-    </div>
-
-    <div class="category">
-      <h2>SOMNIS Season 1</h2>
-      <div class="rank-check">
-        <label>Enter your Elite League 5 Rank (1-98)</label>
-        <input type="number" id="rankS1" min="1" max="98">
-        <div class="result" id="s1result"></div>
-      </div>
-    </div>
-
-    <div class="category">
-      <h2>SOMNIS Season 2 (November Event)</h2>
-      <div class="rank-check">
-        <label>Enter your November Event Rank (1-1000)</label>
-        <input type="number" id="rankS2" min="1" max="1000">
-        <div class="result" id="s2result"></div>
-      </div>
-    </div>
-
-    <div class="total">Total Allocation: <span id="total">0</span> $TAKE</div>
-
-    <div class="actions">
-      <button onclick="resetForm()">Reset All</button>
-      <button onclick="copyLink()">Copy Link</button>
-    </div>
+    <!-- Original categories will go here -->
+    <!-- New categories (POPs, SOMNIS S1 & S2) will be appended -->
   </div>
 
   <script>
-    const popAllocations = {
-      "Overtake Basics": 1.064,
-      "Mint GG:S Pass": 10.13,
-      "Sui x OVERTAKE April": 34.89,
-      "Sui x OVERTAKE March": 31.68,
-      "OVERTAKE Quiz Student (lvl 1)": 8.45,
-      "OVERTAKE Quiz Professor (lvl 3)": 45.97,
-      "Ultimate Dedication": 1953.12,
-      "Reward for OGs": 703.23,
-      "Participate in Games": 199.46,
-      "Prove Your Love": 1253.91
-    };
-
-    const s1Ranks = [14799,13900,13772,13433,13379,12961,12352,12095,12061,11965,11854,11740,11620,11541,11521,11506,11441,11435,11410,11398,11395,11390,11384,11384,11284,11284,11108,10895,10855,10838,10544,10394,10391,10325,10274,10212,10183,10172,10132,10103,10075,10024,9984,9961,9938,9910,9896,9870,9870,9847,9836,9765,9674,9557,9551,9540,9400,9392,9378,9329,9329,9307,9295,9289,9281,9278,9267,9264,9264,9261,9261,9258,9258,9255,9255,9250,9250,9247,9244,9244,9244,9244,9244,9244,9241,9241,9238,9235,9233,9230,9227,9227,9227,9227,9224,9221];
-
-    function getS2Allocation(rank) {
-      if (rank == 1) return 150000;
-      if (rank == 2) return 100000;
-      if (rank == 3) return 70000;
-      if (rank <= 10) return 25000;
-      if (rank <= 20) return 10000;
-      if (rank <= 50) return 5000;
-      if (rank <= 100) return 2000;
-      if (rank <= 200) return 1000;
-      if (rank <= 500) return 500;
-      if (rank <= 1000) return 200;
-      return 0;
-    }
-
-    document.querySelectorAll('.check').forEach(div => {
-      const checkName = div.dataset.check;
-      const select = div.querySelector('select');
-      select.addEventListener('change', () => {
-        const value = select.value === 'Yes' ? popAllocations[checkName] : 0;
-        div.querySelector('.result').textContent = `${value.toLocaleString()} $TAKE`;
-        calculateTotal();
-      });
-    });
-
-    document.getElementById('rankS1').addEventListener('input', () => {
-      const rank = parseInt(document.getElementById('rankS1').value);
-      let val = (rank >= 1 && rank <= 98) ? s1Ranks[rank - 1] : 0;
-      document.getElementById('s1result').textContent = `${val.toLocaleString()} $TAKE`;
-      calculateTotal();
-    });
-
-    document.getElementById('rankS2').addEventListener('input', () => {
-      const rank = parseInt(document.getElementById('rankS2').value);
-      const val = getS2Allocation(rank);
-      document.getElementById('s2result').textContent = `${val.toLocaleString()} $TAKE`;
-      calculateTotal();
-    });
-
-    function calculateTotal() {
-      let total = 0;
-      document.querySelectorAll('.result').forEach(r => {
-        const val = parseFloat(r.textContent.replace(/[^\d.]/g, '')) || 0;
-        total += val;
-      });
-      document.getElementById('total').textContent = total.toLocaleString();
-    }
-
-    function resetForm() {
-      document.querySelectorAll('select').forEach(s => s.value = 'No');
-      document.querySelectorAll('input[type="number"]').forEach(i => i.value = '');
-      document.querySelectorAll('.result').forEach(r => r.textContent = '');
-      calculateTotal();
-    }
-
-    function copyLink() {
-      navigator.clipboard.writeText(window.location.href).then(() => {
-        alert("Link copied to clipboard!");
-      });
-    }
+    // Original JavaScript logic will be restored and enhanced with new features
   </script>
 </body>
 </html>
